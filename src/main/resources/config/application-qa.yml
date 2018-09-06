@@ -1,0 +1,74 @@
+# ===================================================================
+# Spring Boot configuration.
+#
+# This configuration will be overriden by the Spring profile you use,
+# for example application-dev.yml if you use the "dev" profile.
+# ===================================================================
+
+# ===================================================================
+# Standard Spring Boot properties.
+# Full reference is available at:
+# http://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
+# ===================================================================
+
+spring:
+    profiles:
+        active: qa
+    devtools:
+        restart:
+            enabled: true
+    datasource:
+        driver-class-name: com.mysql.jdbc.Driver
+        url: jdbc:mysql://<URL>:3306/offers?autoReconnect=true&useSSL=false&amp;
+        name:
+        username: root
+        password: <password>
+        test-on-borrow: true
+        test-while-idle: true
+        validation-query: select 1;
+        max-active: 5
+    jpa:
+        database: MYSQL
+        show_sql: true
+        properties:
+            hibernate.dialect: org.hibernate.dialect.MySQL5Dialect
+            hibernate.cache.use_second_level_cache: false
+            hibernate.cache.use_query_cache: false
+            hibernate.generate_statistics: true
+            hibernate.order_inserts: true
+            hibernate.order_updates: true
+            hibernate.jdbc.batch_versioned_data: true
+            hibernate.jdbc.batch_size: 100
+            hibernate.cache.region.factory_class: org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory
+        hibernare:
+            naming-strategy: org.hibernate.cfg.DefaultNamingStrategy
+    thymeleaf:
+        cache: false
+    messages:
+        cache-seconds: 1
+    batch:
+        job:
+          enabled: false
+        initialize-schema: ALWAYS
+
+security:
+    basic:
+        enabled: false
+# ===================================================================
+# offersengine_job properties
+# ===================================================================
+
+offersengine_job:
+    cors: #By default CORS are not enabled. Uncomment to enable.
+        allowed-origins: "*"
+        allowed-methods: GET, PUT, POST, DELETE, OPTIONS
+        allowed-headers: "*"
+    fulfillmentServices:
+        BlueOps:
+            - https://<domainname>/api/offerengine/request
+            - api_ka
+            - 2f4da225-84e6-4d0e-9551-7484ca1ae8ff
+        BlueLink:
+            - https://<domainname>/BlueOpsLoans.submit?source=OffersEngine
+            - api_ka
+            - 2f4da225-84e6-4d0e-9551-7484ca1ae8ff
